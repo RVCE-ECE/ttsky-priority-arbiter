@@ -22,6 +22,7 @@ This Tiny Tapeout SKY130 project implements a **Single-Cycle 8-Bit Parallel-Pref
 - `info.yaml` — Tiny Tapeout project metadata and pinout
 - `docs/info.md` — Datasheet and testing guide
 
+
 ## Running Simulation Locally
 
 ```sh
