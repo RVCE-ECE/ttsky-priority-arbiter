@@ -4,7 +4,7 @@
 import random
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, Timer
+from cocotb.triggers import ClockCycles, FallingEdge
 
 
 def expected_grant(req: int, mask: int) -> int:
@@ -32,7 +32,8 @@ async def apply_and_check_single_cycle(dut, req: int, mask: int) -> None:
     dut.ui_in.value = req & 0xFF
     dut.uio_in.value = mask & 0xFF
     await ClockCycles(dut.clk, 1)
-    await Timer(1, unit="ns")
+    # Sample on falling edge so gate-level #1 unit delays on CTS/DFFs have settled
+    await FallingEdge(dut.clk)
 
     exp_g = expected_grant(req, mask)
     got_g = int(dut.uo_out.value)
@@ -72,7 +73,7 @@ async def test_priority_arbiter_single_cycle(dut):
     dut.uio_in.value = 0xFF
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 5)
-    await Timer(1, unit="ns")
+    await FallingEdge(dut.clk)
     assert int(dut.uo_out.value) == 0, f"Reset failed: uo_out=0x{int(dut.uo_out.value):02X}"
 
     # Release reset with zero requests
@@ -80,7 +81,7 @@ async def test_priority_arbiter_single_cycle(dut):
     dut.uio_in.value = 0xFF
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
-    await Timer(1, unit="ns")
+    await FallingEdge(dut.clk)
     assert int(dut.uo_out.value) == 0, "Zero-request state must output 0x00"
 
     # Zero-request check across representative masks
