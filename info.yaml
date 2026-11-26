@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "8-Bit Parallel-Prefix Priority Arbiter"
-  author:       "Krishna Saini, Shylashree N, RV College of Engineering" # Add second student co-author if applicable
+  author:       "Krishna Saini, Kaushal H, K V Sai Charan, Hariprasad L,  Shylashree N, RV College of Engineering" # Add second student co-author if applicable
   discord:      ""
   description:  "Single-cycle 8-bit parallel-prefix priority arbiter with dynamic enable masking and 8-to-3 grant encoder"
   language:     "Verilog"
